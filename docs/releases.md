@@ -29,6 +29,23 @@ Release Please owns:
 Package publishing should be separate and should run only after Release Please
 reports that a release was created.
 
+Release Please workflows should use this token order:
+
+```yaml
+with:
+  token: ${{ secrets.SKENION_RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+```
+
+`SKENION_RELEASE_PLEASE_TOKEN` should be a repository or organization secret
+backed by a fine-grained personal access token that can create release PRs,
+tags, and releases. Without that secret, Release Please falls back to
+`GITHUB_TOKEN`; the release PR will still be created, but GitHub will not start
+normal PR CI from events created by that token.
+
+This is expected GitHub Actions recursion protection, not a test failure. Do not
+treat an empty-job `action_required` release PR run as a code failure. Configure
+the PAT secret before enabling required PR checks for release branches.
+
 ## Conventional Commits
 
 Use Conventional Commits for PR titles and merge commits.
