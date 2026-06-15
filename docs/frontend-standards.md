@@ -6,6 +6,7 @@
 
 - React + TypeScript
 - Mantine for application UI components
+- `@xyflow/react` for the node canvas interaction layer
 - Mantine hooks where they fit naturally
 - Tabler or Lucide icons, chosen consistently during app bootstrap
 - CSS modules or Mantine-supported styling primitives for local component style
@@ -27,9 +28,36 @@
 
 Mantine belongs in `skenion-studio`.
 
+React Flow also belongs in `skenion-studio`. It must remain a visual
+interaction dependency, not a shared graph model or execution dependency.
+
 `skenion-sdk` must stay UI-framework agnostic. It should expose runtime
 connection and command APIs that can be used by React, non-React web apps,
 scripts, or tests.
+
+## Canvas Boundary
+
+Skenion Graph v0.1 is the saved graph format. React Flow nodes and edges are
+derived view-model state.
+
+The Studio implementation must keep an explicit translation layer:
+
+- `toReactFlowViewModel()` maps Skenion graph documents and node definitions
+  into canvas nodes, handles, and edges.
+- `toSkenionPatch()` maps canvas gestures into Skenion graph patch operations.
+- edge validation calls the Skenion compatibility validator before committing a
+  connection.
+
+The canvas must follow the v0.1 type model:
+
+- edge styling is based on `type.flow`
+- GPU styling is based on `type.dataKind === "gpu.texture2d"`
+- boolean values use `dataKind: "boolean"`
+- bang triggers use `flow: "event"` and `dataKind: "bang"`
+- video assets use `dataKind: "asset.video"`
+- GPU textures use `flow: "resource"` and `dataKind: "gpu.texture2d"`
+
+There is no `flow: "gpu"` value.
 
 ## Compatibility UX
 

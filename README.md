@@ -30,10 +30,13 @@ Skenion starts as a multi-repository project:
 | `skenion-ci` | Reusable GitHub Actions workflows and composite actions |
 
 See [Repository Map](docs/repository-map.md) for ownership boundaries.
+See [Roadmap](docs/roadmap.md) for the initial implementation order.
 
 ## Key Decisions
 
 - Use Mantine as the primary frontend component system for `skenion-studio`.
+- Use `@xyflow/react` as the Studio canvas interaction layer, with React Flow
+  state treated only as a derived view model.
 - Use Protobuf + Buf as the live TS/Rust control contract.
 - Use JSON Schema for persisted graph/project documents.
 - Use Release Please and Semantic Versioning per repository, without lockstep
