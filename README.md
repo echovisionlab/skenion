@@ -41,6 +41,8 @@ See [Roadmap](docs/roadmap.md) for the initial implementation order.
 - Use JSON Schema for persisted graph/project documents.
 - Use Release Please and Semantic Versioning per repository, without lockstep
   versioning.
+- Require 100% test coverage for package-owned executable source, while keeping
+  generated artifacts and thin integration shells explicitly out of scope.
 - Keep control, media, telemetry, assets, and debug planes separate.
 - Do not create a vague `common` repository.
 - Use Apache-2.0 as the default open-source license and preserve credit through
