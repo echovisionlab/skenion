@@ -67,6 +67,37 @@ Manual persistence smoke:
 9. Export Graph and confirm the exported JSON has no `viewState` field.
 10. Import Graph and confirm Studio generates a default view state.
 
+## Performance Mode
+
+Performance Mode is the presentation surface for a prepared project. It hides
+graph editing UI and derives the control surface from `ui.*` nodes in the
+current graph:
+
+```text
+ui.button
+ui.slider-f32
+ui.toggle
+```
+
+The controls are positioned from `ProjectDocument.viewState`. Interacting with
+them sends `/v0/session/control/event` requests and must not create graph
+patches, change graph params, or move nodes.
+
+Manual performance smoke:
+
+1. Open `skenion-examples/projects/v0.1/performance-mode.skenion.json` in Studio.
+2. Switch the toolbar mode from Editor to Performance.
+3. Confirm Palette and Inspector are hidden.
+4. Connect Runtime.
+5. Load Current Graph.
+6. Start Preview.
+7. Move the Speed slider and toggle Enabled.
+8. Confirm Runtime reports Control Live with matching `controlRevision` and
+   `previewControlRevision`.
+9. Confirm pending graph patch count remains zero when returning to Editor.
+10. Open another project in Performance Mode and confirm Runtime is not
+    auto-loaded until Load Current Graph is clicked.
+
 Do not use tutorial graphs as compatibility fixtures. Compatibility fixtures stay under `skenion-examples/compatibility`.
 
 The direct runtime smoke for the panel-control path lives in

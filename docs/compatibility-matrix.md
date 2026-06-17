@@ -54,6 +54,27 @@ Import Graph  -> graph only, generated default viewState
 Help graph viewer remains read-only. Open as New Graph copies a help graph into
 an editable graph and generates a default view state for that copy.
 
+## Performance Mode
+
+Performance Mode is a Studio presentation surface, not a graph editing mode. It
+uses the current `ProjectDocument` split as follows:
+
+```text
+GraphDocument  -> runtime/execution graph
+ViewState      -> ui.* control placement
+Runtime API    -> live control events and preview state
+```
+
+The v0 control surface is derived from `ui.button`, `ui.slider-f32`, and
+`ui.toggle` nodes. Their positions come from `viewState.canvas.nodes`.
+Interacting with those controls sends `/v0/session/control/event` requests and
+must not create graph patches, mutate graph params, or mutate view state.
+
+Opening a project in Performance Mode may replace local graph/view state, but it
+must not automatically load Runtime. The user explicitly connects Runtime and
+uses Load Current Graph before preview/control interaction affects a runtime
+session.
+
 ## Verified Releases
 
 | Repository | Release / branch | Compatibility note |
