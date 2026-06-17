@@ -11,7 +11,7 @@ runtime compatibility. It exists to keep `skenion-contracts`, `skenion-examples`
 | Graph document schema | `skenion.graph` `0.1.0` | `skenion-contracts/json-schema/graph/v0.1/graph.schema.json` |
 | Node definition schema | `skenion.node.definition` `0.1.0` | `skenion-contracts/json-schema/node/v0.1/node-definition.schema.json` |
 | Graph patch schema | `skenion.graph.patch` `0.1.0` | `skenion-contracts/json-schema/graph/v0.1/patch.schema.json` |
-| Built-in node definitions | `builtins/v0.1` | `skenion-contracts/builtins/v0.1/nodes/*.node.json` |
+| Built-in node definitions | `builtins/v0.1` | `skenion-contracts/builtins/v0.1/builtins.manifest.json` and `skenion-contracts/builtins/v0.1/nodes/*.node.json` |
 | Runtime HTTP API | `runtime-http.v0` | `skenion-contracts/openapi/runtime-http.v0.yaml` |
 
 ## Canonical Data Kinds
@@ -37,7 +37,8 @@ must use `number.f32`.
 - `skenion-contracts` owns canonical built-in node manifests.
 - `skenion-studio` consumes `builtinNodeDefinitionsV01` from `@skenion/contracts`.
 - `skenion-examples` may keep fixture copies, but CI must structurally audit
-  them against `skenion-contracts/builtins/v0.1/nodes`.
+  them against `skenion-contracts/builtins/v0.1/builtins.manifest.json` and
+  `skenion-contracts/builtins/v0.1/nodes`.
 - `skenion-runtime` validates and plans canonical examples from
   `skenion-examples`.
 - Product-facing render cables may display as `render.frame`; the low-level
@@ -65,3 +66,9 @@ core.value-f32.value
 Do not add additional shader uniforms, texture inputs, asset loading, script
 nodes, or new render nodes until this matrix remains green across the affected
 repositories.
+
+Run the hub-level smoke script before merging compatibility-affecting changes:
+
+```bash
+bash scripts/smoke-compatibility.sh
+```
