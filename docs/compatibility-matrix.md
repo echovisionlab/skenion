@@ -14,6 +14,7 @@ runtime compatibility. It exists to keep `skenion-contracts`, `skenion-examples`
 | Built-in node definitions | `builtins/v0.1` | `skenion-contracts/builtins/v0.1/builtins.manifest.json` and `skenion-contracts/builtins/v0.1/nodes/*.node.json` |
 | Built-in node help | `skenion.node.help` `0.1.0` plus help graphs | `skenion-contracts/builtins/v0.1/help/*.help.json` and `skenion-contracts/help/v0.1/nodes/*.help.graph.json` |
 | Typed control routing | `core.send-*`, `core.receive-*`, `ui.*` panel controls | `skenion-contracts/builtins/v0.1` plus `skenion-contracts/docs/control-routing.md` |
+| Live preview control updates | `skenion.preview.control-state` `0.1.0` runtime-internal snapshot plus telemetry revision fields | `skenion-contracts/docs/live-preview-control-updates.md` and `skenion-contracts/openapi/runtime-http.v0.yaml` |
 | Runtime HTTP API | `runtime-http.v0` | `skenion-contracts/openapi/runtime-http.v0.yaml` |
 
 ## Verified Releases
@@ -59,6 +60,12 @@ core.receive-rgba     -> value<color.rgba>
 interaction with those nodes sends `/v0/session/control/event` requests and
 updates runtime control state; it must not create graph patches. Editing labels,
 ranges, names, or defaults remains graph editing.
+
+When local preview is running, runtime control events can update the preview
+control-state snapshot and telemetry `controlRevision` /
+`previewControlRevision` fields without restarting preview. Graph patches,
+shader source/interface edits, and render output changes still mark preview
+graph state stale and require restart.
 
 `f32` is legacy and non-canonical. Studio may normalize imported legacy graph
 documents from `f32` to `number.f32`, but newly created documents and fixtures
@@ -150,6 +157,10 @@ ui.toggle.value
 core.receive-bool.value
   -> render.fullscreen-shader.enabled
 ```
+
+The live preview control smoke validates that `ui.slider-f32` and `ui.toggle`
+events update typed channels and preview control revision while preview
+`stale` remains false.
 
 Dynamic shader input parsing is supported through WGSL `@skenion.uniform`
 annotations. GLSL, texture inputs, asset loading, script nodes, and multi-pass
