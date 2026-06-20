@@ -56,6 +56,18 @@ M05 remains open after M05.2. The remaining slice is `M05.3 — Physical MIDI
 Input Adapter v0`, where Runtime opens real MIDI input ports and feeds the same
 timestamped adapter path.
 
+M05.3 adds the first physical MIDI input boundary. Runtime lists MIDI input
+ports, opens and closes a selected port, receives raw MIDI realtime bytes,
+assigns host monotonic timestamps, and routes `TimestampedMidiMessage` through
+`MidiClockAdapter` into `ClockSourceStore`. The existing simulated fixture mode
+remains the CI path, so no physical MIDI device is required for compatibility
+smoke. MIDI callbacks must not drive the audio callback, and realtime audio must
+not read MIDI ports or take `ClockSourceStore` locks.
+
+M05 remains open while this slice is reviewed. Later external-clock work can
+decide whether physical MIDI input is enough to close the milestone or whether
+MTC, Link, or host transport need their own closure slice.
+
 ## Current Order
 
 1. `skenion-contracts`

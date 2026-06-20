@@ -56,7 +56,7 @@ run "runtime: validate examples fixtures" bash -lc \
 run "examples: audio clock-domain planning smoke" bash -lc \
   "cd '${EXAMPLES_DIR}' && bash scripts/smoke-runtime-audio-clock-domains.sh '${RUNTIME_DIR}'"
 
-run "examples: runtime MIDI Clock fixture smoke" bash -lc \
+run "examples: runtime MIDI Clock fixture/input smoke" bash -lc \
   "cd '${EXAMPLES_DIR}' && bash scripts/smoke-runtime-midi-clock-fixture.sh '${RUNTIME_DIR}'"
 
 run "examples: live preview control HTTP smoke" bash -lc \
