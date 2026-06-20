@@ -17,6 +17,7 @@ runtime compatibility. It exists to keep `skenion-contracts`, `skenion-examples`
 | Built-in node help | `skenion.node.help` `0.1.0` plus help graphs | `skenion-contracts/builtins/v0.1/help/*.help.json` and `skenion-contracts/help/v0.1/nodes/*.help.graph.json` |
 | Typed control routing | Object-owned `sendName` / `receiveName` on semantic value/control objects | `skenion-contracts/builtins/v0.1` plus `skenion-contracts/docs/control-routing.md` |
 | Live preview control updates | `skenion.preview.control-state` `0.1.0` runtime-internal snapshot plus telemetry revision fields | `skenion-contracts/docs/live-preview-control-updates.md` and `skenion-contracts/openapi/runtime-http.v0.yaml` |
+| External clock source state | `ClockStateV01` field authority plus MIDI Clock tick/start/stop/continue/SPP parser, `clock.midi-clock` builtin, and examples parser fixtures. M05 remains open until Runtime consumes real or simulated MIDI source snapshots. | `skenion-contracts/packages/ts/src/clock.ts`, `skenion-contracts/packages/rust/src/v0_1/clock.rs`, `skenion-contracts/builtins/v0.1/nodes/clock.midi-clock.node.json`, and `skenion-examples/compatibility/v0.1/clock-midi-fixtures` |
 | Audio clock-domain planning | `AudioDeviceDescriptorV01`, `AudioClockDomainV01`, `AudioGraphPartitionV01`, `AudioClockBridgePlanV01` | `skenion-contracts/docs/audio-clock-domain-contract.md` and `skenion-runtime` audio DSP planner |
 | Runtime HTTP API | `runtime-http.v0` | `skenion-contracts/openapi/runtime-http.v0.yaml` |
 

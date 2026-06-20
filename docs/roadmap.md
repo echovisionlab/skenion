@@ -3,7 +3,7 @@
 This roadmap orders the first public Skenion repositories by contract risk.
 The goal is to stabilize the shared language before building a large Studio UI.
 
-## Active Milestones
+## Milestone Baseline
 
 The GitHub roadmap is tracked with repository milestones across the Skenion
 family. The current baseline is:
@@ -13,10 +13,32 @@ family. The current baseline is:
 | M01 Builtin Surface Cleanup / Object Taxonomy | Closed | Canonical object taxonomy and pre-v1 cleanup of duplicate/debug builtins. |
 | M02 Clock / Transport Contract v0 | Closed | Clock/transport model and object-level clock state contract. |
 | M03 Audio Backend v0: Single Output CPAL | Closed | One default CPAL output and one output sample clock domain. |
-| M04 Audio Multi-Endpoint / Clock Domain Planning | Active | Endpoint descriptors, input/output clock domains, partition planning, explicit bridge/resample validation. |
-| M05 External Clock Sources v0 | Planned | Ableton Link, MIDI Clock, MTC, plugin-host/DAW transport capability mapping. |
+| M04 Audio Multi-Endpoint / Clock Domain Planning | Closed | Endpoint descriptors, input/output clock domains, partition planning, explicit bridge/resample validation. |
+| M05 External Clock Sources v0 | Next | MIDI Clock first, then MTC, Ableton Link, and plugin-host/DAW transport capability mapping. |
 | M06 Studio Audio / Clock UI v0 | Planned | Audio endpoint and clock-domain inspection/control surfaces. |
-| M07 Performance / Presentation Mode v0 | Planned | Performance-oriented presentation flow after clock/audio planning stabilizes. |
+| M07 Audio Device Format / Input Backend v0 | Planned | Actual `audio.input` backend, same-device duplex routing, device format conversion, and input latency reporting. |
+| M08 Spatial Audio / Channel Layout Contract v0 | Planned | Channel layout, speaker layout, audio bus metadata, spatial source/listener/panner skeletons, and downmix/upmix policy. |
+| M09 Performance / Presentation Mode v0 | Deferred | Performance-oriented presentation flow after audio/clock UI, input backend, and spatial/channel models stabilize. |
+
+## Next Implementation Focus
+
+M05 remains open. The first slice is `M05.1 — clock.midi-clock
+contract/parser`, because the clock authority model already exists and MIDI
+Clock can validate external-source snapshot handoff without driving the audio
+callback directly.
+
+M05.1 first slice:
+
+- parse MIDI tick, start, stop, continue, and Song Position Pointer messages.
+- emit `ClockState` with explicit capability and authority metadata.
+- derive bar/beat only when meter configuration is available.
+- keep Link, MTC, and host transport compatible with the same
+  capability/authority model.
+- reject designs where an external source directly drives the realtime audio
+  callback.
+
+M05 is not complete until Runtime consumes external MIDI source snapshots
+without coupling MIDI input to the realtime audio callback.
 
 ## Current Order
 
