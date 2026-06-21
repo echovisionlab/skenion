@@ -72,12 +72,18 @@ M06 UI surface policy:
 - Inspect is an open/close side panel mode for one selected target at a time:
   node, edge, or builtin help. It should not host Runtime clock source
   list/start/stop controls.
-- Runtime Control is the side panel mode for explicit Runtime actions:
-  connection, session, preview, telemetry, history, and Runtime clock source
-  list/read/start/stop.
-- Settings are persistent project or object configuration and should use a
-  Dialog once a saved settings model exists. Popovers are reserved for compact
-  inline choices such as enum or format selection.
+- Runtime Control is a separate explicit control surface launched from Studio
+  chrome, not a side-panel tab. It owns connection, session, preview,
+  telemetry, history, and Runtime clock source list/read/start/stop.
+- Settings are persistent project or object configuration. Settings are not a
+  side-panel tab and should not be colocated with Inspect content; contextual
+  settings launch a Dialog from the selected target. Popovers are reserved for
+  compact inline choices such as enum or format selection.
+- Studio UI implementation should keep reusable interaction primitives such as
+  `Button` and `IconButton` under `components/core`, while Runtime, Inspect,
+  Palette, and graph editing behavior stays in feature-owned components. Feature
+  components should compose core primitives instead of styling Mantine controls
+  directly.
 - M06.1 does not add persistent MIDI source configuration, auto-start settings,
   or stable MIDI input identity storage.
 
