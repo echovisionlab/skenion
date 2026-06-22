@@ -654,7 +654,8 @@ jobs:
             echo "6. Docs"
             echo
             echo "Prepare mode validates and summarizes without dispatching."
-            echo "Publish mode dispatches train Release Please PR workflows only."
+            echo "Publish mode dispatches train Release Please PR workflows for releasable package/application repos: Contracts, Runtime, SDK, and Studio."
+            echo "Examples conformance and Docs Pages promotion are post-release gates handled after released artifacts exist during verify/release completion, not Release Please PR dispatch."
             echo "Verify mode is a separate post-release gate after release PRs are merged and artifacts exist."
           } >> "${GITHUB_STEP_SUMMARY}"
 
@@ -713,36 +714,6 @@ jobs:
     uses: echovisionlab/skenion-ci/.github/workflows/dispatch-release-please.yml@v1
     with:
       target-repo: echovisionlab/skenion-studio
-      train-version: ${{ needs.validate.outputs.train_version }}
-      mode: publish
-      dry-run: false
-    secrets: inherit
-
-  publish-examples:
-    name: Dispatch Examples release
-    if: ${{ needs.validate.outputs.mode == 'publish' }}
-    needs:
-      - validate
-      - validate-manifest
-      - publish-studio
-    uses: echovisionlab/skenion-ci/.github/workflows/dispatch-release-please.yml@v1
-    with:
-      target-repo: echovisionlab/skenion-examples
-      train-version: ${{ needs.validate.outputs.train_version }}
-      mode: publish
-      dry-run: false
-    secrets: inherit
-
-  publish-docs:
-    name: Dispatch Docs release
-    if: ${{ needs.validate.outputs.mode == 'publish' }}
-    needs:
-      - validate
-      - validate-manifest
-      - publish-examples
-    uses: echovisionlab/skenion-ci/.github/workflows/dispatch-release-please.yml@v1
-    with:
-      target-repo: echovisionlab/skenion-docs
       train-version: ${{ needs.validate.outputs.train_version }}
       mode: publish
       dry-run: false
