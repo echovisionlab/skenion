@@ -17,17 +17,26 @@ workflow implementation.
 
 Component releases may be public before they are promoted as a product
 compatible set. A release is product-ready only after the compatibility matrix
-verifies the Contracts line/range, Contracts npm/crate versions, Runtime
+verifies the supported Contracts range, Contracts npm/crate versions, Runtime
 version/tag/assets/checksums, SDK package version and supported Contracts range,
 Studio web/desktop versions and Runtime sidecars, Docs Manual version/path,
 protocol baselines, capabilities, and Examples conformance evidence. The
 dangling 0.44 release state must not be repaired with tag surgery, forced train
 rewrites, or local publish compensation. Contracts 0.45 is the first
-compatibility-matrix line for the corrected model.
-Contracts v0 compatibility is rooted in the Contracts package/crate `0.minor`
-line, such as `>=0.45.0 <0.46.0` for line `0.45`; exact graph, project,
+Contracts release covered by the corrected compatibility-matrix model.
+Contracts v0 compatibility is component-advertised metadata, not a hub-inferred
+`0.minor` line. During v0, components may advertise a broad Contracts range such
+as `>=0.0.0 <1.0.0` while the surface is still moving; exact graph, project,
 extension, Runtime HTTP, and protocol discriminator fields remain exact
 current-version checks.
+
+The hub Project and any hub workflows must not become a second compatibility
+authority by hardcoding acceptable Contracts versions or supported ranges for
+component repositories. Component CI proves compatibility
+by installing the dependencies it declares and running its own tests; component
+metadata and Runtime/Studio handshakes advertise supported ranges. Hub ledgers
+may record evidence that those artifacts already produced, but must not invent
+or enforce independent version gates.
 
 skenion v0 does not support legacy, deprecated, or import-only compatibility
 paths. Unsupported graph, project, node, operation, extension, package,
